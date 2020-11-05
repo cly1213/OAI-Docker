@@ -1,0 +1,64 @@
+version: '2'
+
+services:
+  mysql:
+    container_name: db
+    image: cly1213/oai_db_deploy:v3
+    #restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=linux
+    ports:
+     - "3306:3306"
+    networks:
+      mynet123:
+        ipv4_address: 172.18.0.2
+
+  hss:
+    container_name: hss
+    image: cly1213/hss:0.9
+    #restart: always
+    networks:
+      mynet123:
+        ipv4_address: 172.18.0.3
+
+  mme:
+    container_name: mme
+    image: cly1213/mme:0.9
+    #restart: always
+    networks:
+      mynet123:
+        ipv4_address: 172.18.0.4
+
+  spgw:
+    container_name: spgw
+    image: cly1213/spgw:0.9
+    privileged: true
+    volumes:
+      - /dev:/dev
+      - /usr/src:/usr/src
+      - /lib/modules:/lib/modules
+    #restart: always
+    networks:
+      mynet123:
+        ipv4_address: 172.18.0.5
+  enb:
+    container_name: enb
+    image: cly1213/enb:0.9
+    privileged: true
+    volumes:
+      - /dev:/dev
+      - /usr/src:/usr/src
+      - /lib/modules:/lib/modules
+    #restart: always
+    networks:
+      mynet123:
+        ipv4_address: 172.18.0.6
+
+networks:
+  mynet123:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1
