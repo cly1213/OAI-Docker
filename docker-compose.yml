@@ -46,9 +46,7 @@ services:
     image: cly1213/enb:0.9
     privileged: true
     volumes:
-      - /dev:/dev
-      - /usr/src:/usr/src
-      - /lib/modules:/lib/modules
+      - /dev/usb:/dev/usb
     #restart: always
     networks:
       mynet123:
